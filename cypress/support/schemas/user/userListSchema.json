@@ -1,0 +1,119 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "UserListSchema",
+  "type": "object",
+  "required": ["users", "total", "skip", "limit"],
+  "properties": {
+    "users": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "firstName", "lastName", "email", "birthDate", "role"],
+        "properties": {
+          "id": { "type": "integer" },
+          "firstName": { "type": "string" },
+          "lastName": { "type": "string" },
+          "age": { "type": "number" },
+          "gender": { "type": "string" },
+          "email": { "type": "string", "format": "email" },
+          "phone": { "type": "string" },
+          "username": { "type": "string" },
+          "password": { "type": "string" },
+          "birthDate": { "type": "string", "format": "date" },
+          "image": { "type": "string" },
+          "bloodGroup": { "type": "string" },
+          "height": { "type": "number" },
+          "weight": { "type": "number" },
+          "eyeColor": { "type": "string" },
+          "hair": {
+            "type": "object",
+            "required": ["color", "type"],
+            "properties": {
+              "color": { "type": "string" },
+              "type": { "type": "string" }
+            }
+          },
+          "ip": { "type": "string" },
+          "address": {
+            "type": "object",
+            "required": ["address", "city", "state", "postalCode", "coordinates", "country"],
+            "properties": {
+              "address": { "type": "string" },
+              "city": { "type": "string" },
+              "state": { "type": "string" },
+              "stateCode": { "type": "string" },
+              "postalCode": { "type": "string" },
+              "coordinates": {
+                "type": "object",
+                "required": ["lat", "lng"],
+                "properties": {
+                  "lat": { "type": "number" },
+                  "lng": { "type": "number" }
+                }
+              },
+              "country": { "type": "string" }
+            }
+          },
+          "macAddress": { "type": "string" },
+          "university": { "type": "string" },
+          "bank": {
+            "type": "object",
+            "required": ["cardExpire", "cardNumber", "cardType", "currency", "iban"],
+            "properties": {
+              "cardExpire": { "type": "string" },
+              "cardNumber": { "type": "string" },
+              "cardType": { "type": "string" },
+              "currency": { "type": "string" },
+              "iban": { "type": "string" }
+            }
+          },
+          "company": {
+            "type": "object",
+            "required": ["department", "name", "title", "address"],
+            "properties": {
+              "department": { "type": "string" },
+              "name": { "type": "string" },
+              "title": { "type": "string" },
+              "address": {
+                "type": "object",
+                "required": ["address", "city", "state", "postalCode", "coordinates", "country"],
+                "properties": {
+                  "address": { "type": "string" },
+                  "city": { "type": "string" },
+                  "state": { "type": "string" },
+                  "stateCode": { "type": "string" },
+                  "postalCode": { "type": "string" },
+                  "coordinates": {
+                    "type": "object",
+                    "required": ["lat", "lng"],
+                    "properties": {
+                      "lat": { "type": "number" },
+                      "lng": { "type": "number" }
+                    }
+                  },
+                  "country": { "type": "string" }
+                }
+              }
+            }
+          },
+          "ein": { "type": "string" },
+          "ssn": { "type": "string" },
+          "userAgent": { "type": "string" },
+          "crypto": {
+            "type": "object",
+            "required": ["coin", "wallet", "network"],
+            "properties": {
+              "coin": { "type": "string" },
+              "wallet": { "type": "string" },
+              "network": { "type": "string" }
+            }
+          },
+          "role": { "type": "string" }
+        }
+      }
+    },
+    "total": { "type": "number" },
+    "skip": { "type": "number" },
+    "limit": { "type": "number" }
+  }
+}
