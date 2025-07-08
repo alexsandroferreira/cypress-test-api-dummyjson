@@ -86,7 +86,7 @@ cypress/
 | `/users/{id}` | Documentação não detalha corretamente os valores reais do campos `image` (URL) |
 | `/users` | Campos e valores reais diferentes da documentação |
 | `/auth/login` | Retorno com status 200 (documentação menciona 201) | 
-| `/auth/login`    | Documentação menciona o campo `paginação`, apesar de ser retornado na resposta |
+| `/auth/login`    | Documentação menciona o campo `paginação`, mas não é retornado na resposta |
 
 ---
 

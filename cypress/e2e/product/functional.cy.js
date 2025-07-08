@@ -1,12 +1,12 @@
 import MessagesUtils from '../../support/utils/messagesUtils';
 import {
-    generateProduct
+  generateProduct
 } from '../../support/utils/product/productFactory';
 
 describe('Produtos - Testes funcionais da API', () => {
 
   context('Validação de campos essenciais e opcionais por produto', () => {
-    
+
     it('Cada produto retornado na listagem deve conter os campos obrigatórios', () => {
       cy.allProducts().then((res) => {
         expect(res.status).to.eq(200);
@@ -71,7 +71,7 @@ describe('Produtos - Testes funcionais da API', () => {
   });
 
   context('Consulta de produto por ID e validação com fixture', () => {
-    
+
     beforeEach(() => {
       cy.fixture('products/firstProductMock').as('expectedProduct');
     });
@@ -175,7 +175,9 @@ describe('Produtos - Testes funcionais da API', () => {
       cy.request({
         method: 'POST',
         url: '/auth/products/add',
-        headers: { Authorization: `Bearer ${token}` },
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
         body: product,
         failOnStatusCode: false
       }).then((res) => {
@@ -185,6 +187,7 @@ describe('Produtos - Testes funcionais da API', () => {
           description: product.description,
           price: product.price,
           stock: product.stock,
+          rating: product.rating,
           brand: product.brand,
           category: product.category
         });
@@ -198,13 +201,21 @@ describe('Produtos - Testes funcionais da API', () => {
       cy.request({
         method: 'POST',
         url: '/auth/products/add',
-        headers: { Authorization: `Bearer ${token}` },
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
         body: product,
         failOnStatusCode: false
       }).then((res) => {
         expect(res.status).to.eq(201);
         expect(res.body).to.have.property('id');
         expect(res.body.title).to.eq(product.title);
+        expect(res.body).to.have.property('title', product.title);
+        expect(res.body).to.have.property('description', product.description);
+        expect(res.body).to.have.property('price', product.price);
+        expect(res.body).to.have.property('brand', product.brand);
+        expect(res.body).to.have.property('category', product.category);
+        expect(res.body).to.have.property('thumbnail', product.thumbnail);
       });
     });
 
@@ -214,7 +225,9 @@ describe('Produtos - Testes funcionais da API', () => {
       cy.request({
         method: 'POST',
         url: '/auth/products/add',
-        headers: { Authorization: `Bearer ${token}` },
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
         body: emptyProduct,
         failOnStatusCode: false
       }).then((res) => {
@@ -230,8 +243,12 @@ describe('Produtos - Testes funcionais da API', () => {
 
     beforeEach(() => {
       cy.clearCookies();
-      cy.invalidToken().then((token) => { invalidToken = token; });
-      cy.getExpiredToken().then((token) => { expiredToken = token; });
+      cy.invalidToken().then((token) => {
+        invalidToken = token;
+      });
+      cy.getExpiredToken().then((token) => {
+        expiredToken = token;
+      });
     });
 
     it('Deve falhar ao tentar cadastrar produto sem token de autenticação', () => {
@@ -254,7 +271,9 @@ describe('Produtos - Testes funcionais da API', () => {
       cy.request({
         method: 'POST',
         url: '/auth/products/add',
-        headers: { Authorization: `Bearer ${invalidToken}` },
+        headers: {
+          Authorization: `Bearer ${invalidToken}`
+        },
         body: product,
         failOnStatusCode: false
       }).then((res) => {
@@ -269,12 +288,15 @@ describe('Produtos - Testes funcionais da API', () => {
       cy.request({
         method: 'POST',
         url: '/auth/products/add',
-        headers: { Authorization: `Bearer ${expiredToken}` },
+        headers: {
+          Authorization: `Bearer ${expiredToken}`
+        },
         body: product,
         failOnStatusCode: false
       }).then((res) => {
         expect(res.status).to.eq(401);
         expect(res.body).to.have.property('message');
+        expect(res.body.message).to.eq(MessagesUtils.TOKEN_EXPIRED);
       });
     });
   });
