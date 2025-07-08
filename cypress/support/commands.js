@@ -1,4 +1,5 @@
 import {
+  getValidUser,
   getValidToken,
   getInvalidToken,
   getExpiredToken,
@@ -53,8 +54,6 @@ Cypress.Commands.add('loginViaApi', () => {
 
   });
 });
-
-
 
 Cypress.Commands.add('loginWithEmptyAuth', () => {
   return getLoginWithEmptyAuth();
@@ -203,25 +202,25 @@ Cypress.Commands.add('validateContract', (schema, data) => {
   const result = validateSchema(schema, data);
 
   if (!result.valid) {
-    cy.log('❌ Erros de contrato encontrados:');
+    cy.log('Erros de contrato encontrados:');
     result.errors.forEach((err) => {
       const path = err.data || '/';
-      cy.log(`🔸 ${path} - ${err.message}`);
+      cy.log(` ${path} - ${err.message}`);
     });
 
     throw new Error('Validação de contrato falhou. Verifique os logs acima.');
   }
 
-  cy.log('✅ Contrato válido.');
+  cy.log('Contrato válido.');
 });
 
 Cypress.Commands.add('checkApiHealth', () => {
-  cy.log('🔎 Verificando saúde da API...');
+  cy.log('Verificando saúde da API...');
   cy.request('/health').then((res) => {
     expect(res.status).to.eq(200);
     expect(res.body).to.have.property('status', 'ok');
     expect(res.body).to.have.property('method', 'GET');
-    cy.log('✅ API está saudável.');
+    cy.log('API está saudável.');
   });
 });
 

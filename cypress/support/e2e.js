@@ -17,9 +17,12 @@
 import './commands'
 import 'cypress-plugin-api'
 before(() => {
-  cy.checkApiHealth(); // comando personalizado
+  cy.checkApiHealth();
 });
 
 after(() => {
-  cy.log('🧹 Finalizando testes...');
+  cy.clearAllCookies();
+  cy.clearLocalStorage();
+
+  cy.log(' Finalizando testes...');
 });

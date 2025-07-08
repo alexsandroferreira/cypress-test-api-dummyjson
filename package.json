@@ -6,10 +6,11 @@
     "lint": "eslint cypress/**/*.js && eslint cypress.config.js",
     "lint:fix": "eslint cypress/**/*.js --fix && eslint cypress.config.js --fix",
     "test": "cypress run",
-  "report:merge": "npx mochawesome-merge cypress/reports/*.json --output cypress/reports/output.json",
-  "report:generate": "npx mochawesome-report-generator cypress/reports/output.json --output cypress/reports/html --inline",
-  "test:report": "npm run test && npm run report:merge && npm run report:generate",
-  "posttest": "npm run report:merge && npm run report:generate"
+    "test:open": "cypress open",
+    "report:merge": "npx mochawesome-merge cypress/reports/*.json --output cypress/reports/output.json",
+    "report:generate": "npx mochawesome-report-generator cypress/reports/output.json --output cypress/reports/html --inline",
+    "test:report": "npm run test && npm run report:merge && npm run report:generate",
+    "posttest": "npm run report:merge && npm run report:generate"
   },
   "keywords": [],
   "author": "",

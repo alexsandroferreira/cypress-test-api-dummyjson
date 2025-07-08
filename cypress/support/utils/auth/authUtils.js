@@ -15,34 +15,36 @@ import {
  */
 
 export function getValidToken() {
-  const auth = generateValidAuth();
+    const auth = generateValidAuth();
 
-  return cy.request({
-    method: 'POST',
-    url: '/auth/login',
-    body: auth,
-    failOnStatusCode: false
-  }).then((res) => {
-    const {
-      accessToken,
-      refreshToken,
-      ...userData
-    } = res.body;
+    return cy.request({
+        method: 'POST',
+        url: '/auth/login',
+        body: auth,
+        failOnStatusCode: false
+    }).then((res) => {
+        const {
+            accessToken,
+            refreshToken,
+            ...user
+        } = res.body;
 
-    return {
-      accessToken,
-      refreshToken,
-      userData
-    };
-  });
+        return {
+            accessToken,
+            refreshToken,
+            userData: {
+                ...user,
+                status: res.status // agora userData tem o status embutido
+            }
+        };
+    });
+}
+export function getValidUser() {
+    const auth = generateValidAuth();
+    return auth
 }
 
 
-
-/**
- * Retorna um token inválido fake
- * @returns {string}
- */
 export function getInvalidToken() {
     return 'invalid.token.exemplo';
 }

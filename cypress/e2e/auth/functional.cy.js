@@ -1,8 +1,19 @@
 describe('Autenticação - Cenários funcionais da API', () => {
-  
+
   context('Validação da integridade dos tokens após login', function () {
     beforeEach(() => {
       cy.loginViaApi();
+    });
+
+    it('Deve retornar status 200 no login via API', () => {
+      cy.get('@userData').then(user => {
+        expect(user.status).to.eq(200);
+      });
+    });
+    it('Deve retornar status 201 conforme documentação (mas a API retorna 200)', () => {
+      cy.get('@userData').then(user => {
+        expect(user.status).to.eq(201);
+      });
     });
 
     it('Deve retornar accessToken e refreshToken como strings válidas com tamanho mínimo esperado', () => {
@@ -75,6 +86,7 @@ describe('Autenticação - Cenários funcionais da API', () => {
 
     it('A resposta de login deve conter todos os campos esperados com seus tipos de dados corretos', () => {
       cy.get('@userData').then(user => {
+        expect(user.status).to.eq(200)
         expect(user).to.include.all.keys('id', 'username', 'email', 'firstName', 'lastName', 'gender', 'image');
         expect(user.id).to.be.a('number');
         expect(user.username).to.be.a('string');
@@ -89,6 +101,7 @@ describe('Autenticação - Cenários funcionais da API', () => {
     it('Usuário "emilys" deve retornar valores fixos conforme o fixture definido', () => {
       cy.fixture('users/emilys').then(expected => {
         cy.get('@userData').then(user => {
+          expect(user.status).to.eq(200)
           expect(user.username).to.eq(expected.username);
           expect(user.firstName).to.eq(expected.firstName);
           expect(user.lastName).to.eq(expected.lastName);
