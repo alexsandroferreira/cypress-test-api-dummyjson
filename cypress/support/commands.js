@@ -19,7 +19,6 @@ import {
   getUserTotal,
   getUserById
 } from './utils/user/userUtils'
-// Comandos personalizados para rota auth
 
 import {
   assertProductFields,
@@ -39,12 +38,10 @@ Cypress.Commands.add('loginViaApi', () => {
     refreshToken,
     userData
   }) => {
-    // Salvar em variáveis globais de execução
     Cypress.env('accessToken', accessToken);
     Cypress.env('refreshToken', refreshToken);
     Cypress.env('userData', userData);
 
-    // Setar cookies
     cy.setCookie('access_token', accessToken);
     cy.setCookie('refresh_token', refreshToken);
 
@@ -98,30 +95,24 @@ Cypress.Commands.add('getExpiredToken', () => {
   return getExpiredToken();
 });
 
-// comandos personalizados para rota user
 
 
-// Comando para obter todos os usuários
 Cypress.Commands.add('allUsers', () => {
   return getAllUsers();
 });
 
-// Comando para obter usuário por ID
 Cypress.Commands.add('getUserById', (id) => {
   return getUserById(id);
 });
 
-// Comando para obter o primeiro ID de usuário
 Cypress.Commands.add('getFirstUserId', () => {
   return getFirstUserId();
 });
 
-// Comando para obter o segundo ID de usuário
 Cypress.Commands.add('getSecondUserId', () => {
   return getSecondUserId();
 });
 
-// Comando para obter o limite de paginação
 Cypress.Commands.add('getPaginationLimit', () => {
   return getPaginationLimit();
 });
@@ -148,37 +139,30 @@ Cypress.Commands.add('setUserBoundaryAliases', () => {
 });
 
 
-// Comando para obter todos os produtos
 Cypress.Commands.add('allProducts', () => {
   return getAllProducts();
 });
 
-// Comando para obter produto por ID
 Cypress.Commands.add('getProductById', (id) => {
   return getProductById(id);
 });
 
-// Comando para obter o primeiro ID de produto
 Cypress.Commands.add('getFirstProductId', () => {
   return getFirstProductId();
 });
 
-// Comando para obter o segundo ID de produto
 Cypress.Commands.add('getSecondProductId', () => {
   return getSecondProductId();
 });
 
-// Comando para obter o limite de paginação
 Cypress.Commands.add('getPaginationLimitProducts', () => {
   return getPaginationLimit();
 });
 
-// Comando para obter o total de produtos
 Cypress.Commands.add('getTotalProducts', () => {
   return getProductTotal();
 });
 
-// Comando para definir aliases úteis com base nos limites dos produtos
 Cypress.Commands.add('setProductBoundaryAliases', () => {
   return getAllProducts().then((res) => {
     const products = res.body.products;
@@ -195,7 +179,6 @@ Cypress.Commands.add('setProductBoundaryAliases', () => {
   });
 });
 
-// support/commands.js
 
 
 Cypress.Commands.add('validateContract', (schema, data) => {

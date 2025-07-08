@@ -7,7 +7,6 @@ describe('Validação de Contrato - Produtos', () => {
     cy.request('/products').then((res) => {
       expect(res.status).to.eq(200);
 
-      // Valida estrutura da resposta como um todo (ex: products, total, limit etc.)
       cy.validateContract(productListSchema, res.body);
     });
   });
@@ -16,7 +15,6 @@ describe('Validação de Contrato - Produtos', () => {
     cy.request('/products').then((res) => {
       expect(res.status).to.eq(200);
 
-      // Valida cada produto individualmente com base no schema unitário
       res.body.products.forEach((product) => {
         cy.validateContract(productSchema, product);
       });

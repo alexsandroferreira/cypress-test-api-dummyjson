@@ -1,4 +1,4 @@
-// cypress/factories/userFactory.js
+
 
 export function getExpectedUserFields() {
   return [

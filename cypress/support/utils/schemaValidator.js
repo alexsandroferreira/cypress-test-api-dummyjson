@@ -1,4 +1,4 @@
-// support/utils/contractUtils.js
+
 import Ajv from "ajv";
 
 export function validateSchema(schema, data) {

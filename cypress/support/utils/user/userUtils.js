@@ -1,4 +1,4 @@
-// cypress/support/utils/userUtils.js
+
 
 export function getAllUsers() {
   return cy.request({

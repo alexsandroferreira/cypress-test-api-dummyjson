@@ -1,4 +1,4 @@
-// cypress/support/utils/productUtils.js
+
 import {generateProduct} from './productFactory'
 
 export function getAllProducts() {

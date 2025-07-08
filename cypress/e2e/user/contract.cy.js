@@ -7,7 +7,6 @@ describe('Validação de Contrato - Usuários', () => {
     cy.request('/users').then((res) => {
       expect(res.status).to.eq(200);
 
-      // Validação da estrutura geral da resposta (ex: users, total, limit, etc.)
       cy.validateContract(userListSchema, res.body);
     });
   });

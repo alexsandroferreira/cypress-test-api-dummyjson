@@ -1,6 +1,7 @@
 const MessagesUtils = {
     INVALID_CREDENTIALS: 'Invalid credentials',
     USERNAME_PASSWORD_REQUIRED: 'Username and password required',
+    USERNAME_INVALID: 'Username is not valid',
     TOKEN_EXPIRED: 'Token Expired!',
     TOKEN_INVALID: 'invalid token',
     INVALID_EXPIRED_TOKEN: 'Invalid/Expired Token!',

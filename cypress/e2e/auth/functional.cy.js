@@ -1,3 +1,4 @@
+import MessagesUtils from '../../support/utils/messagesUtils';
 describe('Autenticação - Cenários funcionais da API', () => {
 
   context('Validação da integridade dos tokens após login', function () {
@@ -46,35 +47,35 @@ describe('Autenticação - Cenários funcionais da API', () => {
     it('Login com senha incorreta deve retornar erro 400 com mensagem apropriada', () => {
       cy.loginWithInvalidPassword().then(res => {
         expect(res.status).to.eq(400);
-        expect(res.body).to.have.property('message', 'Invalid credentials');
+        expect(res.body).to.have.property('message', MessagesUtils.INVALID_CREDENTIALS);
       });
     });
 
     it('Login com nome de usuário inexistente deve retornar erro 400 com mensagem apropriada', () => {
       cy.loginInvalidUsername().then(res => {
         expect(res.status).to.eq(400);
-        expect(res.body).to.have.property('message', 'Invalid credentials');
+        expect(res.body).to.have.property('message', MessagesUtils.INVALID_CREDENTIALS);
       });
     });
 
     it('Login com campos vazios deve retornar erro 400 com mensagem obrigatória', () => {
       cy.loginWithEmptyAuth().then(res => {
         expect(res.status).to.eq(400);
-        expect(res.body).to.have.property('message', 'Username and password required');
+        expect(res.body).to.have.property('message', MessagesUtils.USERNAME_PASSWORD_REQUIRED);
       });
     });
 
     it('Login com valores nulos nos campos deve retornar erro 400 com mensagem obrigatória', () => {
       cy.loginWithNullAuth().then(res => {
         expect(res.status).to.eq(400);
-        expect(res.body).to.have.property('message', 'Username and password required');
+        expect(res.body).to.have.property('message', MessagesUtils.USERNAME_PASSWORD_REQUIRED);
       });
     });
 
     it('Login com dados numéricos deve retornar erro 400 com mensagem indicando erro de tipo', () => {
       cy.loginWithNumericAuth().then(res => {
         expect(res.status).to.eq(400);
-        expect(res.body).to.have.property('message', 'Username is not valid');
+        expect(res.body).to.have.property('message', MessagesUtils.USERNAME_INVALID);
       });
     });
   });
