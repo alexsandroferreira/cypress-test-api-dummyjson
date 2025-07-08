@@ -1,9 +1,9 @@
 import MessagesUtils from '../../support/utils/messagesUtils';
 
-describe('Usuários - Functional', () => {
+describe('Usuários - Testes funcionais da API', () => {
 
-  context('Campos obrigatórios por usuário', () => {
-    it('Cada usuário deve conter os campos essenciais', () => {
+  context('Validação de campos obrigatórios na listagem de usuários', () => {
+    it('Todos os usuários retornados devem conter os campos essenciais obrigatórios', () => {
       cy.allUsers().then((res) => {
         expect(res.status).to.eq(200);
         const users = res.body.users;
@@ -12,89 +12,61 @@ describe('Usuários - Functional', () => {
 
         users.forEach((user) => {
           expect(user).to.include.all.keys(
-            "id",
-            "firstName",
-            "lastName",
-            "age",
-            "gender",
-            "email",
-            "phone",
-            "username",
-            "password",
-            "birthDate",
-            "image",
-            "bloodGroup",
-            "height",
-            "weight",
-            "eyeColor",
-            "hair", // sempre presente com "color" e "type"
-            "ip",
-            "address", // sempre completo com nested fields
-            "macAddress",
-            "university",
-            "bank", // sempre presente com card info
-            "company", // sempre presente com address
-            "ein",
-            "ssn",
-            "userAgent",
-            "crypto", // presente com coin, wallet, network
-            "role"
+            "id", "firstName", "lastName", "age", "gender", "email", "phone", "username", "password",
+            "birthDate", "image", "bloodGroup", "height", "weight", "eyeColor", "hair", "ip", "address",
+            "macAddress", "university", "bank", "company", "ein", "ssn", "userAgent", "crypto", "role"
           );
         });
       });
     });
   });
 
-  context('Consulta individual com mock', () => {
-  beforeEach(() => {
-    cy.fixture('users/userExample').as('userMock');
-  });
-
-  it('Deve validar todos os dados do usuário com ID 1', function () {
-    const expectedUser = this.userMock;
-
-    cy.request(`/users/${expectedUser.id}`).then((res) => {
-      expect(res.status).to.eq(200);
-      expect(res.body).to.deep.equal(expectedUser);
+  context('Validação completa de um usuário com fixture individual', () => {
+    beforeEach(() => {
+      cy.fixture('users/userExample').as('userMock');
     });
-  });
-});
 
-context('Buscar usuário por ID e validar dados com fixture', () => {
-  beforeEach(() => {
-    cy.fixture('users/usersMockLimited').as('mockUsers');
-  });
+    it('Deve retornar todos os dados do usuário com ID 1 exatamente como definido no mock', function () {
+      const expectedUser = this.userMock;
 
-  it('Deve buscar um usuário aleatório de 1 a 10 e validar os dados principais', function () {
-    // Função auxiliar para gerar ID aleatório entre 1 e 10
-    const randomId = Math.floor(Math.random() * 10) + 1;
-    const expectedUser = this.mockUsers.users.find(u => u.id === randomId);
-
-    cy.request(`/users/${randomId}`).then((res) => {
-      expect(res.status).to.eq(200);
-
-      expect(res.body).to.include({
-        id: expectedUser.id,
-        firstName: expectedUser.firstName,
-        lastName: expectedUser.lastName,
-        username: expectedUser.username,
-        email: expectedUser.email,
-        gender: expectedUser.gender,
-        birthDate: expectedUser.birthDate,
-        role: expectedUser.role
+      cy.request(`/users/${expectedUser.id}`).then((res) => {
+        expect(res.status).to.eq(200);
+        expect(res.body).to.deep.equal(expectedUser);
       });
-
-      // Tipagem e formato
-      expect(res.body.id).to.be.a('number');
-      expect(res.body.email).to.include('@');
-      expect(res.body.birthDate).to.match(/^\d{4}-\d{1,2}-\d{1,2}$/);
     });
   });
-});
 
+  context('Validação de dados principais ao consultar um usuário aleatório via fixture limitada', () => {
+    beforeEach(() => {
+      cy.fixture('users/usersMockLimited').as('mockUsers');
+    });
 
-  context('Paginação', () => {
-    it('Deve retornar no máximo 30 usuários por página', () => {
+    it('Deve buscar um usuário aleatório entre 1 e 10 e validar os campos principais', function () {
+      const randomId = Math.floor(Math.random() * 10) + 1;
+      const expectedUser = this.mockUsers.users.find(u => u.id === randomId);
+
+      cy.request(`/users/${randomId}`).then((res) => {
+        expect(res.status).to.eq(200);
+        expect(res.body).to.include({
+          id: expectedUser.id,
+          firstName: expectedUser.firstName,
+          lastName: expectedUser.lastName,
+          username: expectedUser.username,
+          email: expectedUser.email,
+          gender: expectedUser.gender,
+          birthDate: expectedUser.birthDate,
+          role: expectedUser.role
+        });
+
+        expect(res.body.id).to.be.a('number');
+        expect(res.body.email).to.include('@');
+        expect(res.body.birthDate).to.match(/^\d{4}-\d{1,2}-\d{1,2}$/);
+      });
+    });
+  });
+
+  context('Paginação da listagem de usuários', () => {
+    it('A API deve limitar a resposta a no máximo 30 usuários por página', () => {
       cy.allUsers().then((res) => {
         expect(res.status).to.eq(200);
         expect(res.body.limit).to.eq(30);
@@ -102,7 +74,7 @@ context('Buscar usuário por ID e validar dados com fixture', () => {
       });
     });
 
-    it('Campo limit deve bater com o número de usuários retornados', () => {
+    it('O número de usuários retornados deve coincidir com o valor de "limit" informado na resposta', () => {
       cy.getPaginationLimit().then((limit) => {
         cy.allUsers().then((res) => {
           expect(res.body.users.length).to.eq(limit);
@@ -111,16 +83,12 @@ context('Buscar usuário por ID e validar dados com fixture', () => {
     });
   });
 
-
-
-
-  context('Usuários por analise de valor limite', () => {
-
+  context('Análise de valor limite para IDs de usuários', () => {
     beforeEach(() => {
       cy.setUserBoundaryAliases();
     });
 
-    it('Deve retornar 200 para o primeiro ID válido', () => {
+    it('Deve retornar sucesso (200) ao consultar o primeiro ID de usuário válido', () => {
       cy.get('@minUserId').then((id) => {
         cy.getUserById(id).then((res) => {
           expect(res.status).to.eq(200);
@@ -129,7 +97,7 @@ context('Buscar usuário por ID e validar dados com fixture', () => {
       });
     });
 
-    it('Deve retornar 404 para o ID abaixo do mínimo', () => {
+    it('Deve retornar erro 404 ao consultar um ID abaixo do mínimo existente', () => {
       cy.get('@minUserId').then((id) => {
         const invalidId = id - 1;
         cy.getUserById(invalidId).then((res) => {
@@ -139,9 +107,7 @@ context('Buscar usuário por ID e validar dados com fixture', () => {
       });
     });
 
-
-
-    it('Deve retornar 404 para o ID acima do máximo', () => {
+    it('Deve retornar erro 404 ao consultar um ID acima do número total de usuários disponíveis', () => {
       cy.get('@totalUsers').then((total) => {
         const invalidId = total + 1;
         cy.getUserById(invalidId).then((res) => {
@@ -151,16 +117,14 @@ context('Buscar usuário por ID e validar dados com fixture', () => {
       });
     });
 
-    it('Deve retornar 200 para o ID do ultimo usuario', () => {
+    it('Deve retornar sucesso (200) ao consultar o último ID de usuário válido', () => {
       cy.get('@totalUsers').then((id) => {
-
         cy.getUserById(id).then((res) => {
           expect(res.status).to.eq(200);
           expect(res.body.id).to.eq(id);
         });
       });
     });
-
   });
 
 });

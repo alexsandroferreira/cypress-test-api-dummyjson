@@ -2,8 +2,8 @@ import loginRequestSchema from '../../support/schemas/auth/loginRequestSchema.js
 import loginResponseSchema from '../../support/schemas/auth/loginResponseSchema.json';
 import { generateValidAuth } from '../../support/utils/auth/authFactory';
 
-describe('Contrato - Autenticação', () => {
-  it('Deve validar contrato da resposta de login', () => {
+describe('Validação de Contrato - Autenticação (Login)', () => {
+  it('Deve validar o contrato da requisição e da resposta da API de login com credenciais válidas', () => {
     const credentials = generateValidAuth();
 
     cy.validateContract(loginRequestSchema, credentials);
@@ -17,7 +17,5 @@ describe('Contrato - Autenticação', () => {
       cy.validateContract(loginResponseSchema, res.body);
     });
   });
-
-
-
 });
+
