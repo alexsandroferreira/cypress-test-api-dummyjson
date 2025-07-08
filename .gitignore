@@ -11,6 +11,9 @@ cypress/results/*
 cypress/reports/*
 cypress/screenshots/*
 cypress/videos/*
+mochawesome.json
+mochawesome-report/
+cypress/reports/
 
 ### Node ###
 # Logs
