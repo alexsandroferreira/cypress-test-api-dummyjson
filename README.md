@@ -158,3 +158,27 @@ Esses comandos:
   "test:report": "npm run test && npm run report:merge && npm run report:generate"
 }
 ```
+## ⚙️ Integração Contínua (CI) com GitHub Actions
+
+O projeto está integrado ao **GitHub Actions** com uma pipeline de build automatizada que executa todos os testes Cypress em **pull requests** e **commits na branch `test`**.
+
+📁 Arquivo de configuração:  
+`.github/workflows/cypress-tests.yml`
+
+### O que a pipeline faz?
+
+- Instala o Node.js na versão `20.5.1`
+- Instala dependências do projeto via `npm ci`
+- Executa todos os testes automatizados com Cypress
+- Garante que o build falhe caso haja testes com falha
+
+```yaml
+on:
+  push:
+    branches: [test]
+  pull_request:
+    branches: [test]
+```
+
+---
+
